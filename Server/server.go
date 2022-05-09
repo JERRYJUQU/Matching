@@ -1,19 +1,14 @@
 package main
 
-import "net/http"
-
-type HTTPHandler struct{}
+import (
+	"log"
+	"net/http"
+)
 
 const SERVER_ADDR = "127.0.0.1:8080"
 
-func (handler HTTPHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	data := []byte("Hello World!")
-
-	res.Write(data)
-}
-
 func main() {
-	var handler HTTPHandler
-
-	http.ListenAndServe(SERVER_ADDR, handler)
+	log.Print("Starting angular-bootstrap-demo on address: ", SERVER_ADDR)
+	http.Handle("/", http.FileServer(http.Dir("../TheOneProject/dist/angular-bootstrap-demo")))
+	http.ListenAndServe(SERVER_ADDR, nil)
 }
